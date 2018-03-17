@@ -4,7 +4,7 @@ public class HeightMap
 {
 	int step, octave, width, height;
 	double[][] values;
-	
+
 	public HeightMap(int w, int h, int s, int o)
 	{
 		width = w;

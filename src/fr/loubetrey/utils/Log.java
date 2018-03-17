@@ -1,13 +1,19 @@
 package fr.loubetrey.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Log 
 {
 	public static void log(Object o, String s, boolean e)
 	{
+		Date now = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+		
 		if(e)
-			System.err.println(s + " | " + o);
+			System.err.println(s + " (" + format.format(now) + ") | " + o);
 		else
-			System.out.println(s + " | " + o);
+			System.out.println(s + " (" + format.format(now) + ") | " + o);
 	}
 	
 	public static void err(Object o)
