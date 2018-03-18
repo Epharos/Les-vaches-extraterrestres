@@ -12,35 +12,58 @@ public class RenderCube implements Render
 		
 		GL11.glBegin(GL11.GL_QUADS);
 		{
-			GL11.glColor3f(m.getColor()[0], m.getColor()[1], m.getColor()[2]);
+			GL11.glColor3f(0, 1f; 0);
 			GL11.glVertex3f(1.0f, 1.0f, -1.0f);
+			GL11.glColor3f(0.3f, 1f; 0.3f);
 			GL11.glVertex3f(-1.0f, 1.0f, -1.0f);
+			GL11.glColor3f(0.05f, 0.8f; 0.1f);
 			GL11.glVertex3f(-1.0f, 1.0f, 1.0f);
+			GL11.glColor3f(0, 0.8f; 0);
 			GL11.glVertex3f(1.0f, 1.0f, 1.0f);
 			
+			GL11.glColor3f(0, 1f; 0);
 			GL11.glVertex3f(1.0f, -1.0f, 1.0f);
+			GL11.glColor3f(0.3f, 1f; 0.3f);
 			GL11.glVertex3f(-1.0f, -1.0f, 1.0f);
+			GL11.glColor3f(0.05f, 0.8f; 0.1f);
 			GL11.glVertex3f(-1.0f, -1.0f, -1.0f);
+			GL11.glColor3f(0, 0.8f; 0);
 			GL11.glVertex3f(1.0f, -1.0f, -1.0f);
 			
+			GL11.glColor3f(0, 1f; 0);
 			GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+			GL11.glColor3f(0.3f, 1f; 0.3f);
 			GL11.glVertex3f(-1.0f, 1.0f, 1.0f);
+			GL11.glColor3f(0.05f, 0.8f; 0.1f);
 			GL11.glVertex3f(-1.0f, -1.0f, 1.0f);
+			GL11.glColor3f(0, 0.8f; 0);
 			GL11.glVertex3f(1.0f, -1.0f, 1.0f);
 			
+			GL11.glColor3f(0, 1f; 0);
 			GL11.glVertex3f(1.0f, -1.0f, -1.0f);
+			GL11.glColor3f(0.3f, 1f; 0.3f);
 			GL11.glVertex3f(-1.0f, -1.0f, -1.0f);
+			GL11.glColor3f(0.05f, 0.8f; 0.1f);
 			GL11.glVertex3f(-1.0f, 1.0f, -1.0f);
+			GL11.glColor3f(0, 0.8f; 0);
 			GL11.glVertex3f(1.0f, 1.0f, -1.0f);
 			
+			GL11.glColor3f(0, 1f; 0);
 			GL11.glVertex3f(-1.0f, 1.0f, 1.0f);
+			GL11.glColor3f(0.3f, 1f; 0.3f);
 			GL11.glVertex3f(-1.0f, 1.0f, -1.0f);
+			GL11.glColor3f(0.05f, 0.8f; 0.1f);
 			GL11.glVertex3f(-1.0f, -1.0f, -1.0f);
+			GL11.glColor3f(0, 0.8f; 0);
 			GL11.glVertex3f(-1.0f, -1.0f, 1.0f);
 			
+			GL11.glColor3f(0, 1f; 0);
 			GL11.glVertex3f(1.0f, 1.0f, -1.0f);
+			GL11.glColor3f(0.3f, 1f; 0.3f);
 			GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+			GL11.glColor3f(0.05f, 0.8f; 0.1f);
 			GL11.glVertex3f(1.0f, -1.0f, 1.0f);
+			GL11.glColor3f(0, 0.8f; 0);
 			GL11.glVertex3f(1.0f, -1.0f, -1.0f);
 		}
 		
