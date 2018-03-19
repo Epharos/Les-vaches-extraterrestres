@@ -5,8 +5,6 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
-import fr.loubetrey.material.Material;
-import fr.loubetrey.render.RenderCube;
 import fr.loubetrey.utils.Log;
 
 import java.nio.*;
@@ -82,8 +80,6 @@ public class Window
 		glfwShowWindow(windowID);
 	}
 	
-	private float d = 0;
-
 	private void loop() 
 	{
 		GL.createCapabilities();
@@ -91,39 +87,24 @@ public class Window
 		glViewport(0, 0, width, height);
 		
 		glEnable(GL_DEPTH_TEST);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable( GL_BLEND );
 		
 		glMatrixMode(GL11.GL_PROJECTION);
 		glLoadIdentity();
-		glFrustum (-0.1333, 0.1333, -0.1, 0.1, 0.5, 25.0); 
+		glFrustum (-0.1333, 0.1333, -0.1, 0.1, 0.5, 5000.0); 
 		glMatrixMode(GL11.GL_MODELVIEW);
 
-		glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(0.7f, 1f, 1f, 1f);
 
 		while (!glfwWindowShouldClose(windowID)) 
 		{
-			d += 0.0002f;
-			
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			glLoadIdentity();
 			
-			glTranslatef(0, 0, -d);
-			glRotatef(d % 360, 0, 1, 0);
-			
-			// ICI
-			
-			RenderCube rc = new RenderCube();
-			
-			for(int i = 0 ; i < 10 ; i++)
-			{
-				for(int j = 0 ; j < 10 ; j++)
-				{
-					rc.render(Material.grass);
-					glTranslatef(1, 0, 0);
-				}
-				glTranslatef(0, 0, 1);
-			}
-			
+			Rendering.render();
+						
 			glfwSwapBuffers(windowID);
 
 			glfwPollEvents();

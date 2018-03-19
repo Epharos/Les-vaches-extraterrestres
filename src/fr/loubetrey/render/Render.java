@@ -4,5 +4,5 @@ import fr.loubetrey.material.Material;
 
 public interface Render 
 {
-	public void render(Material m);
+	public void render(Material m, boolean N, boolean S, boolean E, boolean W, boolean U, boolean D, double d);
 }

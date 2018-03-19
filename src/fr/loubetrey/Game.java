@@ -2,11 +2,13 @@ package fr.loubetrey;
 
 import fr.loubetrey.material.Material;
 import fr.loubetrey.utils.Log;
+import fr.loubetrey.world.World;
 
 public class Game 
 {
 	private static Game INSTANCE;
-	private static Window window;
+	private Window window;
+	private World theWorld;
 	
 	public Game()
 	{
@@ -15,15 +17,23 @@ public class Game
 		INSTANCE = this;
 		
 		Material.registerMaterials();
+		theWorld = new World();
 		
 		// ------------------------
 		
 		window = new Window();
-		window.run(600, 600);
+		window.run(1920, 1080);
 	}
 	
 	public static Game getInstance()
 	{
 		return INSTANCE;
 	}
+	
+	public World getWorld()
+	{
+		return theWorld;
+	}
 }
+
+
