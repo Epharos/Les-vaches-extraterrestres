@@ -46,7 +46,12 @@ public class Window
 
 		glfwDefaultWindowHints();
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+		glfwWindowHint(GLFW_SAMPLES, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 		windowID = glfwCreateWindow(width, height, name, NULL, NULL);
 		if (windowID == NULL)
@@ -78,6 +83,7 @@ public class Window
 		glfwSwapInterval(1);
 
 		glfwShowWindow(windowID);
+		GL.createCapabilities();
 	}
 	
 	private void loop() 
@@ -96,12 +102,26 @@ public class Window
 		glMatrixMode(GL11.GL_MODELVIEW);
 
 		glClearColor(0.7f, 1f, 1f, 1f);
+		
+		double last = glfwGetTime();
+		int frames = 0;
+		double current = glfwGetTime();
 
 		while (!glfwWindowShouldClose(windowID)) 
 		{
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			glLoadIdentity();
+			
+			current = glfwGetTime();
+			frames++;
+			
+			if(current > last + 1.0)
+			{
+				Log.log(frames, "FPS", false);
+				last += 1.0;
+				frames = 0;
+			}
 			
 			Rendering.render();
 						
