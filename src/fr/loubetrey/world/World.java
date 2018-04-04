@@ -2,7 +2,6 @@ package fr.loubetrey.world;
 
 import fr.loubetrey.map.HeightMap;
 import fr.loubetrey.material.Material;
-import fr.loubetrey.utils.Log;
 
 public class World 
 {

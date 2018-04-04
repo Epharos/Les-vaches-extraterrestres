@@ -1,53 +1,44 @@
 package fr.loubetrey;
 
-import static org.lwjgl.opengl.GL11.*;
+import fr.loubetrey.render.Mesh;
+import fr.loubetrey.render.Shader;
+import fr.loubetrey.utils.FileLoader;
 
-import fr.loubetrey.render.RenderCube;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL30.*;
 
 public class Rendering 
 {		
-	private static int d = 0;
-	static RenderCube rc = new RenderCube();
+	static Shader sh;
 	
-	public static final void render()
+	public static final void init() throws Exception
 	{
-//		d++;
-		glTranslatef(-50, 2f * Game.getInstance().getWorld().HEIGHT, -8 * Game.getInstance().getWorld().LENGTH);
-		glRotatef(30, 1, 0, 0);
-		glRotatef(-38 + d, 0, 1, 0);
-		glRotatef(0, 0, 0, 1);
-		
-		for(int i = 0 ; i < Game.getInstance().getWorld().WIDTH ; i++)
-		{
-			for(int j = 0 ; j < Game.getInstance().getWorld().HEIGHT ; j++)
-			{
-				for(int k = 0 ; k < Game.getInstance().getWorld().LENGTH ; k++)
-				{
-					if(Game.getInstance().getWorld().getMaterialAt(i, j, k) != null)
-					{
-						rc.render(Game.getInstance().getWorld().getMaterialAt(i, j, k), 
-								Game.getInstance().getWorld().getMaterialAt(i, j + 1, k) == null || Game.getInstance().getWorld().getMaterialAt(i, j + 1, k).isTransparent(),
-								Game.getInstance().getWorld().getMaterialAt(i, j - 1, k) == null || Game.getInstance().getWorld().getMaterialAt(i, j - 1, k).isTransparent(),
-								Game.getInstance().getWorld().getMaterialAt(i, j, k + 1) == null || Game.getInstance().getWorld().getMaterialAt(i, j, k + 1).isTransparent(),
-								Game.getInstance().getWorld().getMaterialAt(i, j, k - 1) == null || Game.getInstance().getWorld().getMaterialAt(i, j, k - 1).isTransparent(),
-								Game.getInstance().getWorld().getMaterialAt(i - 1, j, k) == null || Game.getInstance().getWorld().getMaterialAt(i - 1, j, k).isTransparent(),
-								Game.getInstance().getWorld().getMaterialAt(i + 1, j, k) == null || Game.getInstance().getWorld().getMaterialAt(i + 1, j, k).isTransparent(), (double)j / (double)Game.getInstance().getWorld().HEIGHT);
-						
-//						rc.render(Game.getInstance().getWorld().getMaterialAt(i, j, k), 
-//								true, // U
-//								true, // E
-//								true, // D
-//								true, // W
-//								true, // S
-//								true // N
-//								);
-					}
-					
-					glTranslatef(0, 0, 2);
-				}
-				glTranslatef(0, 2, -2 * Game.getInstance().getWorld().LENGTH);
-			}
-			glTranslatef(2, -2 * Game.getInstance().getWorld().HEIGHT, 0);
-		}
+		sh = new Shader();
+		sh.createVertexShader(FileLoader.loadResource("vertex.vs"));
+		sh.createFragmentShader(FileLoader.loadResource("fragment.fs"));
+		sh.link();
+	}
+	
+	public static final void render(Mesh m)
+	{
+		sh.bind();
+
+        glBindVertexArray(m.getVaoId());
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+
+        glDrawElements(GL_TRIANGLES, m.getVertexCount(), GL_UNSIGNED_INT, 0);
+
+        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
+        glBindVertexArray(0);
+
+        sh.unbind();
+	}
+	
+	public static final void end()
+	{
+		sh.cleanShader();
 	}
 }

@@ -5,6 +5,7 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
+import fr.loubetrey.render.Mesh;
 import fr.loubetrey.utils.Log;
 
 import java.nio.*;
@@ -20,6 +21,26 @@ public class Window
 	private long windowID;
 	private int width, height;
 	
+	private float[] positions = new float[]{
+	        -0.5f,  0.5f, 0.0f,
+	        -0.5f, -0.5f, 0.0f,
+	         0.5f, -0.5f, 0.0f,
+	         0.5f,  0.5f, 0.0f,
+	    };
+	
+	private int[] index = new int[]{
+            0, 1, 3, 3, 1, 2,
+        };
+	
+	float[] colours = new float[]{
+            0.5f, 0.0f, 0.0f,
+            0.0f, 0.5f, 0.0f,
+            0.0f, 0.0f, 0.5f,
+            0.0f, 0.5f, 0.5f,
+	};
+	
+	private Mesh mesh;
+	
 	public void run(int w, int h)
 	{
 		Log.log("LWJGL " + Version.getVersion());
@@ -28,6 +49,9 @@ public class Window
 		
 		init("Les vaches extraterrestres");
 		loop();
+		
+		Rendering.end();
+		mesh.cleanUp();
 		
 		glfwFreeCallbacks(windowID);
 		glfwDestroyWindow(windowID);
@@ -45,11 +69,12 @@ public class Window
 			throw new IllegalStateException("Unable to initialize GLFW");
 
 		glfwDefaultWindowHints();
+		
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 		glfwWindowHint(GLFW_SAMPLES, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
@@ -84,22 +109,26 @@ public class Window
 
 		glfwShowWindow(windowID);
 		GL.createCapabilities();
+		
+		mesh = new Mesh(positions, colours, index);
+		
+		try 
+		{
+			Rendering.init();
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	private void loop() 
 	{
-		GL.createCapabilities();
-		
 		glViewport(0, 0, width, height);
 		
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable( GL_BLEND );
-		
-		glMatrixMode(GL11.GL_PROJECTION);
-		glLoadIdentity();
-		glFrustum (-0.1333, 0.1333, -0.1, 0.1, 0.5, 5000.0); 
-		glMatrixMode(GL11.GL_MODELVIEW);
+		glEnable(GL_BLEND);
 
 		glClearColor(0.7f, 1f, 1f, 1f);
 		
@@ -110,8 +139,6 @@ public class Window
 		while (!glfwWindowShouldClose(windowID)) 
 		{
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-			glLoadIdentity();
 			
 			current = glfwGetTime();
 			frames++;
@@ -123,7 +150,7 @@ public class Window
 				frames = 0;
 			}
 			
-			Rendering.render();
+			Rendering.render(mesh);
 						
 			glfwSwapBuffers(windowID);
 

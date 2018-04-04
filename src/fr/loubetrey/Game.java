@@ -17,7 +17,7 @@ public class Game
 		INSTANCE = this;
 		
 		Material.registerMaterials();
-		theWorld = new World();
+//		theWorld = new World();
 		
 		// ------------------------
 		
